@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="97ce3c03-f722-4e77-a05e-3890d23e0c5b"
+    Publisher="CN=Peter Egunjobi"
+    Version="1.0.5.0" />
+
+  <mp:PhoneIdentity PhoneProductId="97ce3c03-f722-4e77-a05e-3890d23e0c5b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>MediaTrackMixer</DisplayName>
+    <PublisherDisplayName>Peter Egunjobi</PublisherDisplayName>
+    <Logo>Assets\EncircledPIERound.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="Media Track Mixer"
+        Description="Using Media Track Mixer, you can extract and/or combine media tracks from multiple input media files. For example, you can combine your .mp4 video file with your .srt subtitle file and save it into a .mkv file, or you can extract .mp3 from a .mp4/.mkv music video, or even convert between .mp4 and .mkv. Best of all, this program keeps the encoding of your media files in tact!"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\MediumTile.png"
+        Square44x44Logo="Assets\EncircledPIERound.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png"/>
+        <uap:SplashScreen Image="Assets\EncircledInfinity.png" />
+        <uap:LockScreen BadgeLogo="Assets\EncircledPIERound.png" Notification="badgeAndTileText"/>
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>
