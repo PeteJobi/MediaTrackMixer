@@ -39,7 +39,14 @@ namespace MediaTrackMixer
             Window = this;
             AppWindow.Resize(new SizeInt32(700, AppWindow.Size.Height));
             AppWindow.SetTitleBarIcon("Assets/EncircledPIERound.ico");
-            FfmpegLocation = Path.Join(Package.Current.InstalledLocation.Path, "Assets/ffmpeg.exe");
+            try
+            {
+                FfmpegLocation = Path.Join(Package.Current.InstalledLocation.Path, "Assets/ffmpeg.exe");
+            }
+            catch (InvalidOperationException)
+            {
+                FfmpegLocation = "Assets/ffmpeg.exe";
+            }
             //SetIconFromEmbeddedResource($"{nameof(MediaTrackMixer)}.Assets.EncircledPIERound.ico");
             WindowFrame.Navigate(typeof(MainPage));
         }

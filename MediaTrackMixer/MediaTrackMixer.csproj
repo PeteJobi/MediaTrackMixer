@@ -13,8 +13,6 @@
     <Nullable>enable</Nullable>
 	<!--<WindowsPackageType>None</WindowsPackageType>
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>-->
-	<EnableMsixTooling>true</EnableMsixTooling>
-	<PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\EncircledPIERound.altform-lightunplated_targetsize-16.png" />
