@@ -24,7 +24,11 @@ Now, it just so happens that, thanks to FFMPEG, we can copy tracks from one medi
 Note that, unlike many video editing tools that allow you to add text to video, adding a subtitle track to a media file can be undone. Most editing tools just "burn" the text directly onto the video permanently. The text cannot be separated from the video, and cannot be disabled in a media player. The benefit is that the text will show in any media player and the video editor has more control over the appearance of the text. The downside is that the video watcher has no control over it.
 
 ## How to use
-When you open the program, you will be prompted to upload the input media files from which you wish to extract/combine tracks. Once that is done, you have options to add more media, remove specific media or remove all. Each media will contain one or more tracks. You can click on individual tracks to select them, or you can check/uncheck the box near the media file name to select/deselect all files. There are also options to select all video and audio tracks, or to select all subtitles, in a media. When you're done with your selection, click the "Ready" button to move on to the next stage.
+When you open the program, you will be prompted to upload the input media files from which you wish to extract/combine tracks. Once that is done, you have options to add more media, remove specific media or remove all. Each media will contain one or more tracks.
+
+The colour of a circle represents the media the track is from, and the number in the circle is for identification purposes in the next stage. The text immediately after the icon is the title of the track as retrieved from the media's metadata, and the text after that is the track's codec.
+
+You can click on individual tracks to select them, or you can check/uncheck the box near the media file name to select/deselect all files. There are also options to select all video and audio tracks, or to select all subtitles, in a media. When you're done with your selection, click the "Ready" button to move on to the next stage.
 
 On the next page, you can reorder tracks by dragging. This is useful if, for example, you want to set a default subtitle, in which case, you drag that subtitle above the other subtitles. You can also enter or rename titles of individual tracks (you currently can't do this for chapters) by clicking on the edit button. When you're done with this, click on the "Mix!" button to enter the file name of the output media. Navigate to the folder you want it saved in and click Save.
 
