@@ -121,15 +121,22 @@ namespace MediaTrackMixer
             }
 
             File.Delete(output);
+            var failure = false;
             await StartProcess(ffmpegPath, $"{inputArgs} -c:v copy {audioEncode} {subtitleEncode} {disableDefaultMappingFromFirstInput} {mapTrackArgs} {mapTitleArgs} -max_interleave_delta 0 \"{output}\"", null, (sender, args) =>
             {
                 if (string.IsNullOrWhiteSpace(args.Data)) return;
                 Debug.WriteLine(args.Data);
+                if (args.Data == "Conversion failed!")
+                {
+                    failure = true;
+                    return;
+                }
                 if (progress == null) return;
                 var matchCollection = Regex.Matches(args.Data, @"^(?:frame|size)=\s*.+?time=(\d{2}:\d{2}:\d{2}\.\d{2}).+");
                 if (matchCollection.Count == 0) return;
                 progress.Report(TimeSpan.Parse(matchCollection[0].Groups[1].Value) / totalDuration * 100);
             });
+            if (failure) throw new Exception("The operation failed");
             progress?.Report(100);
         }
 
@@ -164,7 +171,7 @@ namespace MediaTrackMixer
             ffmpeg.Dispose();
         }
 
-        public enum TrackType{ None, Video, Audio, Subtitle, Other }
+        public enum TrackType{ Other, Video, Audio, Subtitle }
         public class Track(int index, TrackType type, string codec)
         {
             public int Index { get; set; } = index;

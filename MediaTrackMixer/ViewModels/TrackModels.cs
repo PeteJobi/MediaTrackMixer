@@ -10,7 +10,7 @@ public class Track : INotifyPropertyChanged
     public string? FileName { get; set; }
     public string FullPath { get; set; }
     public MediaTrackMixer.TrackType Type { get; set; }
-    public string Colour { get; set; }
+    public Colour Colour { get; set; }
     public int Index { get; set; }
     public string Codec { get; set; }
     public bool IsChapter { get; set; }
@@ -67,6 +67,13 @@ public class Track : INotifyPropertyChanged
     public bool IsNotChapter => !IsChapter;
 }
 
+public class Colour
+{
+    public string Background { get; set; }
+    public bool HasBlackForeground { get; set; }
+    public string Foreground => HasBlackForeground ? "Black" : "White";
+}
+
 public class TrackGroup : List<Track>, INotifyPropertyChanged
 {
     public TrackGroup(IEnumerable<Track> items) : base(items)
@@ -84,7 +91,7 @@ public class TrackGroup : List<Track>, INotifyPropertyChanged
     }
     public string FileName { get; set; }
     public string FullPath { get; set; }
-    public string Colour { get; set; }
+    public Colour Colour { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

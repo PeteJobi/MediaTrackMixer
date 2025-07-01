@@ -77,7 +77,7 @@ public sealed partial class ProcessingPage : Page
             }
         }
 
-        if (containsChapters || (containsVideo && containsSubtitles))
+        if (containsChapters || (containsVideo && containsSubtitles) || (containsAudio && containsSubtitles))
         {
             return ("New video", PickerLocationId.VideosLibrary, FileTypeChoices(".mkv"));
         }
@@ -85,6 +85,11 @@ public sealed partial class ProcessingPage : Page
         if (containsVideo)
         {
             return ("New video", PickerLocationId.VideosLibrary, FileTypeChoices(".mp4"));
+        }
+
+        if (containsAudio && viewModel.Tracks.Count > 1)
+        {
+            return ("New multi-track audio", PickerLocationId.VideosLibrary, FileTypeChoices(".mp4"));
         }
 
         if (containsAudio)
@@ -123,11 +128,20 @@ public sealed partial class ProcessingPage : Page
             ProgressBar.Value = progress;
             ProgressText.Text = $"{Math.Round(progress, 2)}%";
         });
-        await mixer.Mix(mixerTracks, file.Path, maps, progress);
+        bool success;
+        try
+        {
+            await mixer.Mix(mixerTracks, file.Path, maps, progress);
+            success = true;
+        }
+        catch (Exception)
+        {
+            success = false;
+        }
         viewModel.OperationVisibility = OperationVisibility.ShowOnlyBack;
         viewModel.ShowInfoBar = true;
-        viewModel.InfoBarSeverity = InfoBarSeverity.Success;
-        viewModel.InfoBarMessage = "Track mix completed successfully";
+        viewModel.InfoBarSeverity = success ? InfoBarSeverity.Success : InfoBarSeverity.Error;
+        viewModel.InfoBarMessage = success ? "Track mix completed successfully" : "Track mix was not successful";
     }
 
     private void GoBack(object sender, RoutedEventArgs e)

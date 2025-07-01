@@ -15,14 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
 using Windows.Storage.Pickers;
-using AppInstance = Microsoft.Windows.AppLifecycle.AppInstance;
 
 namespace MediaTrackMixer;
 
@@ -32,17 +26,16 @@ public sealed partial class MainPage : Page
     private MediaTrackMixer mixer;
     private List<MediaTrackMixer.TrackGroup> mixerTracks;
     public static List<string> AllSupportedTypes = [ ".mkv", ".mp4", ".mp3", ".wav", ".srt" ];
-    string[] colours =
+    (string, bool)[] colours =
     [
-        "Magenta",
-        "Yellow",
-        "Cyan",
-        "Green",
-        "Blue",
-        "DarkCyan",
-        "Red",
-        "DarkMagenta",
-        "DarkYellow",
+        ("Magenta", true),
+        ("Yellow", true),
+        ("Cyan", true),
+        ("Green", false),
+        ("Blue", false),
+        ("DarkCyan", false),
+        ("Red", false),
+        ("DarkMagenta", false),
     ];
     public MainPage()
     {
@@ -77,6 +70,8 @@ public sealed partial class MainPage : Page
         var i = 0;
         _mainModel.TrackGroups = new ObservableCollection<TrackGroup>(mixerTracks.Select(t =>
         {
+            var (background, hasBlackForeground) = colours[i++ % colours.Length];
+            var colour = new Colour { Background = background, HasBlackForeground = hasBlackForeground };
             var tracks = t.Tracks.Select(s => new Track
             {
                 FullPath = t.Path,
@@ -84,18 +79,17 @@ public sealed partial class MainPage : Page
                 Codec = s.Codec,
                 Index = s.Index,
                 Type = s.Type,
-                Colour = colours[i % colours.Length],
+                Colour = colour,
                 FileName = Path.GetFileName(t.Path)
             }).ToList();
             if(t.Chapters.Any()) tracks.Add(new Track
             {
                 IsChapter = true, 
                 Title = $"{t.Chapters.Count} chapters",
-                Colour = colours[i % colours.Length],
+                Colour = colour,
                 FileName = Path.GetFileName(t.Path),
                 FullPath = t.Path
             });
-            i++;
             return new TrackGroup(tracks)
             {
                 FileName = Path.GetFileName(t.Path),
@@ -205,7 +199,7 @@ public sealed partial class MainPage : Page
         var selectedTracks = ListVieww.SelectedItems.Cast<Track>().ToList();
         Frame.Navigate(typeof(ProcessingPage), new
         {
-            Tracks = selectedTracks,
+            Tracks = selectedTracks.Where(t => t.Type != MediaTrackMixer.TrackType.Other).ToList(),
             MixerTracks = mixerTracks.Where(mt => selectedTracks.Any(t => t.FullPath == mt.Path)).ToList()
         }, transition);
     }

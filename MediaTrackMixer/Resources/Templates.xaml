@@ -5,7 +5,7 @@
     xmlns:viewModels="using:MediaTrackMixer.ViewModels">
 
     <DataTemplate x:Key="TrackTemplate" x:DataType="viewModels:Track">
-        <Grid Height="40" BorderBrush="Black" BorderThickness="1" Background="AliceBlue">
+        <Grid Height="40" BorderBrush="{ThemeResource TextFillColorPrimaryBrush}" BorderThickness="1" Background="{ThemeResource TrackBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="60" />
@@ -13,8 +13,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid>
-                <Ellipse Fill="{x:Bind Colour}" Stroke="Black" Width="30" Height="30" ToolTipService.ToolTip="{x:Bind FileNameString}"></Ellipse>
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" Text="{x:Bind IndexString}" />
+                <Ellipse Fill="{x:Bind Colour.Background}" Stroke="{ThemeResource TextFillColorPrimaryBrush}" Width="30" Height="30" ToolTipService.ToolTip="{x:Bind FileNameString}"></Ellipse>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" Text="{x:Bind IndexString}" Foreground="{x:Bind Colour.Foreground}"/>
             </Grid>
             <FontIcon Grid.Column="1" Glyph="{x:Bind Icon}" ToolTipService.ToolTip="{x:Bind ToolTip}"/>
             <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind Title}" TextTrimming="CharacterEllipsis" Visibility="{x:Bind NotOnSecondPage}"/>
@@ -25,7 +25,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid Visibility="{x:Bind NotInEditMode, Mode=OneWay}">
                     <TextBlock VerticalAlignment="Center" Visibility="{x:Bind HasNoTitle, Mode=OneWay}"
-                               Foreground="{StaticResource TextFillColorDisabledBrush}" FontStyle="Italic">
+                               Foreground="{ThemeResource TextFillColorDisabledBrush}" FontStyle="Italic">
                         (No Title)
                     </TextBlock>
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind Title, Mode=OneWay}" TextTrimming="CharacterEllipsis"

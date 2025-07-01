@@ -35,7 +35,7 @@
                                                   Unchecked="TrackGroupChecked"
                                                   IsChecked="{x:Bind Checked, Mode=OneWay}">
                                         </CheckBox>
-                                        <Ellipse Grid.Column="1" Fill="{x:Bind Colour}" Stroke="Black" Width="15"
+                                        <Ellipse Grid.Column="1" Fill="{x:Bind Colour.Background}" Stroke="Black" Width="15"
                                                  Height="15" />
                                         <TextBlock Grid.Column="2" VerticalAlignment="Center"
                                                    Text="{x:Bind FileName}"
@@ -59,7 +59,7 @@
                                                     <MenuFlyoutItem Text="Remove media" Click="TrackGroupDeleted">
                                                         <MenuFlyoutItem.Icon>
                                                             <SymbolIcon Symbol="Delete"
-                                                                        Foreground="{StaticResource SystemFillColorCriticalBrush}" />
+                                                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
                                                         </MenuFlyoutItem.Icon>
                                                     </MenuFlyoutItem>
                                                 </MenuFlyout>
@@ -87,7 +87,7 @@
                     </Button>
                     <Button Click="RemoveAllMedia" Width="150">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <SymbolIcon Symbol="Delete" Foreground="{StaticResource SystemFillColorCriticalBrush}"/>
+                            <SymbolIcon Symbol="Delete" Foreground="{ThemeResource SystemFillColorCriticalBrush}"/>
                             <TextBlock HorizontalTextAlignment="Center">Remove all</TextBlock>
                         </StackPanel>
                     </Button>
@@ -100,7 +100,7 @@
                 </StackPanel>
             </Grid>
         </RelativePanel>
-        <Grid Visibility="{x:Bind _mainModel.HasNoTracks, Mode=OneWay}" BorderBrush="{StaticResource CardStrokeColorDefaultBrush}" BorderThickness="2"
+        <Grid Visibility="{x:Bind _mainModel.HasNoTracks, Mode=OneWay}" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="2"
               CornerRadius="{StaticResource OverlayCornerRadius}" Width="500" Height="500" Background="Transparent">
             <Button Padding="10" Click="ShowFilePicker" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel>

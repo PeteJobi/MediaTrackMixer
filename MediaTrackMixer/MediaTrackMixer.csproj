@@ -137,14 +137,14 @@
     <ApplicationIcon>Assets\EncircledPIERound.ico</ApplicationIcon>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>C320E96973E4453120C64179A2A3AF6477F813D1</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
-    <AppInstallerUri></AppInstallerUri>
+    <AppInstallerUri>C:\Users\Peter Egunjobi\source\repos\PeteJobi\AppPackages</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageDir></AppxPackageDir>
+    <PackageCertificateKeyFile>MediaTrackMixer_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
 </Project>
