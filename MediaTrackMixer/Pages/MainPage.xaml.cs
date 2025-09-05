@@ -25,7 +25,7 @@ public sealed partial class MainPage : Page
     private MainModel _mainModel;
     private MediaTrackMixer mixer;
     private List<MediaTrackMixer.TrackGroup> mixerTracks;
-    public static List<string> AllSupportedTypes = [ ".mkv", ".mp4", ".mp3", ".wav", ".srt" ];
+    public static List<string> AllSupportedTypes = [ ".mkv", ".mp4", ".mp3", ".wav", ".srt", ".ass" ];
     (string, bool)[] colours =
     [
         ("Magenta", true),
@@ -42,10 +42,6 @@ public sealed partial class MainPage : Page
         InitializeComponent();
         mixer = new MediaTrackMixer(MainWindow.FfmpegLocation);
         _mainModel = new MainModel{ TrackGroups = new ObservableCollection<TrackGroup>() };
-        //AddMedia([
-        //    @"C:\Users\Peter Egunjobi\Documents\Shared Folder\The.Walking.Dead.S09.1080p.BluRay.x265-YAWNiX\The.Walking.Dead.S09E02.1080p.BluRay.x265-YAWNiX.mkv",
-        //    @"C:\Users\Peter Egunjobi\Downloads\TorrentDownloads\Dexter Original Sin (2024) S01 (1080p AMZN WEB-DL x265 10bit EAC3 5.1 Silence)\Dexter Original Sin (2024) - S01E07 - The Big Bad Body Problem (1080p AMZN WEB-DL x265 Silence).mkv",
-        //]);
     }
 
     private async void ShowFilePicker(object sender, RoutedEventArgs e)
@@ -76,16 +72,33 @@ public sealed partial class MainPage : Page
             {
                 FullPath = t.Path,
                 Title = s.Title,
-                Codec = s.Codec,
+                CodecOrMimeType = s.Codec,
                 Index = s.Index,
-                Type = s.Type,
+                Type = Track.ProcessorToModelTrackType(s.Type),
                 Colour = colour,
                 FileName = Path.GetFileName(t.Path)
-            }).ToList();
-            if(t.Chapters.Any()) tracks.Add(new Track
+            }).Concat(t.Attachments.Select(s => new Track
             {
-                IsChapter = true, 
+                FullPath = t.Path,
+                Title = s.Name,
+                CodecOrMimeType = s.MimeType,
+                Index = s.Index,
+                Type = TrackType.Attachment,
+                Colour = colour,
+                FileName = Path.GetFileName(t.Path)
+            })).ToList();
+            if(t.Chapters.Count > 0) tracks.Add(new Track
+            {
+                Type = TrackType.Chapters,
                 Title = $"{t.Chapters.Count} chapters",
+                Colour = colour,
+                FileName = Path.GetFileName(t.Path),
+                FullPath = t.Path
+            });
+            tracks.Add(new Track
+            {
+                Title = t.GlobalMetadataTitle,
+                Type = TrackType.GlobalMetadata,
                 Colour = colour,
                 FileName = Path.GetFileName(t.Path),
                 FullPath = t.Path
@@ -175,7 +188,7 @@ public sealed partial class MainPage : Page
         if (trackGroup == null) return;
         trackGroup.Checked = false;
         var index = GetTrackGroupIndex(trackGroup);
-        var count = trackGroup.Count(t => t.Type is MediaTrackMixer.TrackType.Video or MediaTrackMixer.TrackType.Audio);
+        var count = trackGroup.Count(t => t.Type is TrackType.Video or TrackType.Audio);
         ListVieww.SelectRange(new ItemIndexRange(index, (uint)count));
     }
 
@@ -187,8 +200,8 @@ public sealed partial class MainPage : Page
         if (trackGroup == null) return;
         trackGroup.Checked = false;
         var index = GetTrackGroupIndex(trackGroup);
-        index += trackGroup.Count(t => t.Type is MediaTrackMixer.TrackType.Video or MediaTrackMixer.TrackType.Audio);
-        var count = trackGroup.Count(t => t.Type == MediaTrackMixer.TrackType.Subtitle);
+        index += trackGroup.Count(t => t.Type is TrackType.Video or TrackType.Audio);
+        var count = trackGroup.Count(t => t.Type == TrackType.Subtitle);
         ListVieww.SelectRange(new ItemIndexRange(index, (uint)count));
     }
 
@@ -199,7 +212,7 @@ public sealed partial class MainPage : Page
         var selectedTracks = ListVieww.SelectedItems.Cast<Track>().ToList();
         Frame.Navigate(typeof(ProcessingPage), new
         {
-            Tracks = selectedTracks.Where(t => t.Type != MediaTrackMixer.TrackType.Other).ToList(),
+            Tracks = selectedTracks.Where(t => t.Type != TrackType.Other).ToList(),
             MixerTracks = mixerTracks.Where(mt => selectedTracks.Any(t => t.FullPath == mt.Path)).ToList()
         }, transition);
     }

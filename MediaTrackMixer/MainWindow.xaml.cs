@@ -47,25 +47,7 @@ namespace MediaTrackMixer
             {
                 FfmpegLocation = "Assets/ffmpeg.exe";
             }
-            //SetIconFromEmbeddedResource($"{nameof(MediaTrackMixer)}.Assets.EncircledPIERound.ico");
             WindowFrame.Navigate(typeof(MainPage));
         }
-
-        ///// <summary>
-        ///// Set the Icon for this <see cref="Window"/> out from an EmbeddedResource. If no <see cref="Assembly"/> is specified, the current loaded <see cref="Assembly"/> is used for
-        ///// </summary>
-        ///// <param name="window"></param>
-        ///// <param name="resourceName">The name of the resource</param>
-        ///// <param name="assembly">Location of the resource</param>
-        //public void SetIconFromEmbeddedResource(string resourceName, Assembly? assembly = null)
-        //{                
-        //    // https://github.com/microsoft/microsoft-ui-xaml/issues/7782#issuecomment-1266928339
-        //    if (assembly == null) assembly = Assembly.GetEntryAssembly();
-
-        //    var rName = assembly.GetManifestResourceNames().FirstOrDefault(s => s.EndsWith(resourceName, StringComparison.InvariantCultureIgnoreCase));
-        //    var icon = new Icon(assembly.GetManifestResourceStream(rName));
-
-        //    AppWindow.SetIcon(Win32Interop.GetIconIdFromIcon(icon.Handle));
-        //}
     }
 }

@@ -60,24 +60,42 @@ public sealed partial class ProcessingPage : Page
         var containsChapters = false;
         var containsAudio = false;
         var containsSubtitles = false;
+        var containsAttachments = false;
+        var subtitleExtension = string.Empty;
+        var attachmentName = string.Empty;
+        var attachmentExtension = string.Empty;
         foreach (var track in viewModel.Tracks)
         {
-            if(track.IsChapter) containsChapters = true;
-            else switch (track.Type)
+            if(track.Type == TrackType.GlobalMetadata) continue;
+            switch (track.Type)
             {
-                case MediaTrackMixer.TrackType.Video:
+                case TrackType.Video:
                     containsVideo = true;
                     break;
-                case MediaTrackMixer.TrackType.Audio:
+                case TrackType.Audio:
                     containsAudio = true;
                     break;
-                case MediaTrackMixer.TrackType.Subtitle:
+                case TrackType.Subtitle:
                     containsSubtitles = true;
+                    subtitleExtension = track.CodecOrMimeType == "ass" ? ".ass" : ".srt";
                     break;
+                case TrackType.Chapters:
+                    containsChapters = true;
+                    break;
+                case TrackType.Attachment:
+                    containsAttachments = true;
+                    (attachmentName, attachmentExtension) = track.Title?.Contains('.') == true 
+                        ? mixer.GetFileNameAndExtension(track.Title)
+                            : !string.IsNullOrWhiteSpace(track.Title)
+                                ? (track.Title, ".file") 
+                                : ("New attachment", ".file");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        if (containsChapters || (containsVideo && containsSubtitles) || (containsAudio && containsSubtitles))
+        if (containsChapters || ((containsVideo || containsAudio) && (containsSubtitles || containsAttachments)))
         {
             return ("New video", PickerLocationId.VideosLibrary, FileTypeChoices(".mkv"));
         }
@@ -87,9 +105,22 @@ public sealed partial class ProcessingPage : Page
             return ("New video", PickerLocationId.VideosLibrary, FileTypeChoices(".mp4"));
         }
 
-        if (containsAudio && viewModel.Tracks.Count > 1)
+        if (viewModel.Tracks.Count > 1)
         {
-            return ("New multi-track audio", PickerLocationId.VideosLibrary, FileTypeChoices(".mp4"));
+            if (containsAudio)
+            {
+                return ("New multi-track audio", PickerLocationId.VideosLibrary, FileTypeChoices(".mp4"));
+            }
+
+            if (containsSubtitles)
+            {
+                return ("Empty video with subtitles", PickerLocationId.VideosLibrary, FileTypeChoices(".mp4"));
+            }
+
+            if (containsAttachments)
+            {
+                return ("Empty video with attachments", PickerLocationId.VideosLibrary, FileTypeChoices(".mkv"));
+            }
         }
 
         if (containsAudio)
@@ -99,7 +130,12 @@ public sealed partial class ProcessingPage : Page
 
         if (containsSubtitles)
         {
-            return ("New subtitles", PickerLocationId.DocumentsLibrary, FileTypeChoices(".srt"));
+            return ("New subtitles", PickerLocationId.DocumentsLibrary, FileTypeChoices(subtitleExtension));
+        }
+
+        if (containsAttachments)
+        {
+            return (attachmentName, PickerLocationId.DocumentsLibrary, FileTypeChoices(attachmentExtension));
         }
 
         return ("New file", PickerLocationId.Downloads, FileTypeChoices(".mp4"));
@@ -107,8 +143,25 @@ public sealed partial class ProcessingPage : Page
         IEnumerable<string> FileTypeChoices(string type) => MainPage.AllSupportedTypes.Where(t => t != type).Prepend(type);
     }
 
-    private List<MediaTrackMixer.Map> GetMaps() => viewModel.Tracks.Select(tr => new MediaTrackMixer.Map(
-        mixerTracks.FindIndex(tg => tg.Path == tr.FullPath), tr.IsChapter ? 0 : tr.Index, tr.IsChapter, tr.IsChapter ? null : tr.Title)).ToList();
+    private List<MediaTrackMixer.Map> GetMaps() => viewModel.Tracks.Select(tr =>
+    {
+        var inputIndex = mixerTracks.FindIndex(tg => tg.Path == tr.FullPath);
+        var trackIndex = tr.Type == TrackType.Chapters ? 0 : tr.Index;
+        var type = Track.ModelToProcessorGeneralType(tr.Type);
+        var metadataReplacements = tr.Type switch
+        {
+            TrackType.Attachment => new Dictionary<string, string>
+            {
+                { "filename", tr.Title ?? string.Empty },
+                { "mimetype", tr.CodecOrMimeType ?? string.Empty }
+            },
+            _ => new Dictionary<string, string>
+            {
+                { "title", tr.Title ?? string.Empty }
+            },
+        };
+        return new MediaTrackMixer.Map(inputIndex, trackIndex, type, metadataReplacements);
+    }).ToList();
 
     private async void Save(object sender, RoutedEventArgs e)
     {
@@ -131,7 +184,8 @@ public sealed partial class ProcessingPage : Page
         bool success;
         try
         {
-            await mixer.Mix(mixerTracks, file.Path, maps, progress);
+            var isExtractingAttachment = viewModel.Tracks is [{ Type: TrackType.Attachment }]; //viewModel.Tracks.Count == 1 && viewModel.Tracks[0].Type == TrackType.Attachment;
+            await mixer.Mix(mixerTracks, file.Path, maps, null, isExtractingAttachment, progress);
             success = true;
         }
         catch (Exception)
