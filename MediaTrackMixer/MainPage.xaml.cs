@@ -33,9 +33,9 @@ namespace MediaTrackMixer
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is List<string> splitFolders)
+            if (e.Parameter is List<string> outputFiles)
             {
-                Console.WriteLine($"{splitFolders.Count} folders were generated");
+                Console.WriteLine($"{outputFiles.Count} files were generated");
             }
 
             await Task.Delay(10);
@@ -60,7 +60,7 @@ namespace MediaTrackMixer
                     await ErrorDialog.ShowAsync();
                     return;
                 }
-                Frame.Navigate(typeof(MediaTrackMixerMainPage), new MixerProps { FfmpegPath = ffmpegPath, MediaPaths = Enumerable.Empty<string>(), TypeToNavigateTo = typeof(MainPage).FullName });
+                Frame.Navigate(typeof(MediaTrackMixerMainPage), new MixerProps { FfmpegPath = ffmpegPath, MediaPaths = [], TypeToNavigateTo = typeof(MainPage).FullName });
             }
             catch (Exception ex)
             {
