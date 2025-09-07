@@ -1,4 +1,4 @@
-using MediaTrackMixer.ViewModels;
+//using MediaTrackMixerPage.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -30,23 +30,22 @@ namespace MediaTrackMixer
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private MainModel _mainModel;
-        public static Window Window;
-        public static string FfmpegLocation;
+        //public static Window Window;
+        //public static string FfmpegLocation;
         public MainWindow()
         {
             InitializeComponent();
-            Window = this;
+            //Window = this;
             AppWindow.Resize(new SizeInt32(700, AppWindow.Size.Height));
             AppWindow.SetTitleBarIcon("Assets/EncircledPIERound.ico");
-            try
-            {
-                FfmpegLocation = Path.Join(Package.Current.InstalledLocation.Path, "Assets/ffmpeg.exe");
-            }
-            catch (InvalidOperationException)
-            {
-                FfmpegLocation = "Assets/ffmpeg.exe";
-            }
+            //try
+            //{
+            //    FfmpegLocation = Path.Join(Package.Current.InstalledLocation.Path, "Assets/ffmpeg.exe");
+            //}
+            //catch (InvalidOperationException)
+            //{
+            //    FfmpegLocation = "Assets/ffmpeg.exe";
+            //}
             WindowFrame.Navigate(typeof(MainPage));
         }
     }

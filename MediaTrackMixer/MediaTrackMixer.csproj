@@ -71,7 +71,6 @@
     <None Remove="ffmpeg.exe" />
     <None Remove="MainPage.xaml" />
     <None Remove="ProcessingPage.xaml" />
-    <None Remove="Resources\Templates.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -96,14 +95,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="Assets\EncircledPIERound.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
@@ -112,7 +103,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Resources\Templates.xaml">
+    <Page Update="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -140,9 +131,10 @@
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
-    <AppInstallerUri>C:\Users\Peter Egunjobi\source\repos\PeteJobi\AppPackages</AppInstallerUri>
+    <AppInstallerUri>C:\</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageDir></AppxPackageDir>
     <PackageCertificateKeyFile>MediaTrackMixer_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
+  <Import Project="..\MediaTrackMixerPageWinUI\MediaTrackMixerPage.projitems" Label="Shared" />
 </Project>

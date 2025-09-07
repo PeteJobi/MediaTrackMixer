@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36203.30 d17.14
+VisualStudioVersion = 17.14.36203.30
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaTrackMixer", "MediaTrackMixer\MediaTrackMixer.csproj", "{D8C7E9D0-7E11-4407-B829-4265790C2025}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MediaTrackMixerPage", "MediaTrackMixerPageWinUI\MediaTrackMixerPage.shproj", "{41BD008E-AF39-42E1-9D50-8FB0F51D1A24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,5 +41,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80F57598-2F9A-43CB-B573-F634B844E31F}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MediaTrackMixerPageWinUI\MediaTrackMixerPage.projitems*{41bd008e-af39-42e1-9d50-8fb0f51d1a24}*SharedItemsImports = 13
+		MediaTrackMixerPageWinUI\MediaTrackMixerPage.projitems*{d8c7e9d0-7e11-4407-b829-4265790c2025}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
