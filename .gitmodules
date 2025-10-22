@@ -1,3 +1,6 @@
 [submodule "MediaTrackMixerPageWinUI"]
 	path = MediaTrackMixerPageWinUI
 	url = https://github.com/PeteJobi/MediaTrackMixerPageWinUI.git
+[submodule "WinUIShared"]
+	path = WinUIShared
+	url = https://github.com/PeteJobi/WinUIShared.git
