@@ -137,4 +137,5 @@
     <PackageCertificateKeyFile>MediaTrackMixer_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <Import Project="..\MediaTrackMixerPageWinUI\MediaTrackMixerPage.projitems" Label="Shared" />
+  <Import Project="..\WinUIShared\WinUIShared.projitems" Label="Shared" />
 </Project>

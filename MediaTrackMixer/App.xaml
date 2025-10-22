@@ -10,18 +10,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
-                <!--<ResourceDictionary Source="Resources/Templates.xaml"/>-->
+                <ResourceDictionary Source="Resources/WinUISharedDictionary.xaml"/>
                 <resources:Template/>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="TrackBackground" Color="AliceBlue"/>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="TrackBackground" Color="#262626"/>
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
