@@ -31,15 +31,12 @@ namespace MediaTrackMixer
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is List<string> outputFiles)
             {
                 Console.WriteLine($"{outputFiles.Count} files were generated");
             }
-
-            await Task.Delay(10);
-            GoToMixer();
         }
 
         private async void GoToMixer()
@@ -64,10 +61,15 @@ namespace MediaTrackMixer
             }
             catch (Exception ex)
             {
-                ErrorDialog.Content = $"An error occurred while navigating to the video splitter page: {ex.Message}";
+                ErrorDialog.Content = $"An error occurred while navigating to the media track mixer page: {ex.Message}";
                 await ErrorDialog.ShowAsync();
-                System.Diagnostics.Debug.WriteLine($"Error navigating to VideoSplitterPage: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error navigating to MediaTrackMixerMainPage: {ex.Message}");
             }
+        }
+
+        private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            GoToMixer();
         }
     }
 }
