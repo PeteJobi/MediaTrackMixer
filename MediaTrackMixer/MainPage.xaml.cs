@@ -39,7 +39,7 @@ namespace MediaTrackMixer
             }
         }
 
-        private async void GoToMixer()
+        private async void GoToMixer(IEnumerable<string> mediaPaths)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace MediaTrackMixer
                     await ErrorDialog.ShowAsync();
                     return;
                 }
-                Frame.Navigate(typeof(MediaTrackMixerMainPage), new MixerProps { FfmpegPath = ffmpegPath, MediaPaths = [], TypeToNavigateTo = typeof(MainPage).FullName });
+                Frame.Navigate(typeof(MediaTrackMixerMainPage), new MixerProps { FfmpegPath = ffmpegPath, MediaPaths = mediaPaths, TypeToNavigateTo = typeof(MainPage).FullName });
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace MediaTrackMixer
 
         private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
         {
-            GoToMixer();
+            GoToMixer([]);
         }
     }
 }
