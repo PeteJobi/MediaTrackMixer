@@ -10,7 +10,7 @@
   <Identity
     Name="97ce3c03-f722-4e77-a05e-3890d23e0c5b"
     Publisher="CN=PIE Softwares"
-    Version="1.0.1.0" />
+    Version="2.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="97ce3c03-f722-4e77-a05e-3890d23e0c5b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
